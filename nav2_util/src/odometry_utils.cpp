@@ -32,7 +32,7 @@ OdomSmoother::OdomSmoother(
   auto node = parent.lock();
   odom_sub_ = node->create_subscription<nav_msgs::msg::Odometry>(
     odom_topic,
-    rclcpp::SystemDefaultsQoS(),
+    rclcpp::SensorDataQoS(),
     std::bind(&OdomSmoother::odomCallback, this, std::placeholders::_1));
 
   odom_cumulate_.twist.twist.linear.x = 0;
@@ -52,7 +52,7 @@ OdomSmoother::OdomSmoother(
   auto node = parent.lock();
   odom_sub_ = node->create_subscription<nav_msgs::msg::Odometry>(
     odom_topic,
-    rclcpp::SystemDefaultsQoS(),
+    rclcpp::SensorDataQoS(),
     std::bind(&OdomSmoother::odomCallback, this, std::placeholders::_1));
 
   odom_cumulate_.twist.twist.linear.x = 0;

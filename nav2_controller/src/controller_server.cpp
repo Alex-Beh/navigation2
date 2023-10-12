@@ -540,8 +540,9 @@ void ControllerServer::computeAndPublishVelocity()
 void ControllerServer::updateGlobalPath()
 {
   if (action_server_->is_preempt_requested()) {
-    RCLCPP_INFO(get_logger(), "Passing new path to controller.");
     auto goal = action_server_->accept_pending_goal();
+    RCLCPP_INFO(get_logger(), "Passing new path to controller with controller_id: %s.",
+      goal->controller_id.c_str());
     std::string current_controller;
     if (findControllerId(goal->controller_id, current_controller)) {
       current_controller_ = current_controller;

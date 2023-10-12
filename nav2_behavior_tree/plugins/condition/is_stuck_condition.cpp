@@ -42,7 +42,7 @@ IsStuckCondition::IsStuckCondition(
   sub_option.callback_group = callback_group_;
   odom_sub_ = node_->create_subscription<nav_msgs::msg::Odometry>(
     "odom",
-    rclcpp::SystemDefaultsQoS(),
+    rclcpp::SensorDataQoS(),
     std::bind(&IsStuckCondition::onOdomReceived, this, std::placeholders::_1),
     sub_option);
 

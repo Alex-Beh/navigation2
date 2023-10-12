@@ -73,7 +73,7 @@ public:
     odom_sub_ =
       nh->create_subscription<nav_msgs::msg::Odometry>(
       odom_topic,
-      rclcpp::SystemDefaultsQoS(),
+      rclcpp::SensorDataQoS(),
       std::bind(&OdomSubscriber::odomCallback, this, std::placeholders::_1));
   }
 
