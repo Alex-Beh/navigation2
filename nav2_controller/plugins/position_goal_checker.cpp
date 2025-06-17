@@ -65,7 +65,7 @@ void PositionGoalChecker::reset()
 
 bool PositionGoalChecker::isGoalReached(
   const geometry_msgs::msg::Pose & query_pose, const geometry_msgs::msg::Pose & goal_pose,
-  const geometry_msgs::msg::Twist &)
+  const geometry_msgs::msg::Twist & /*speed*/, const nav_msgs::msg::Path & /*path*/)
 {
   // If stateful and position was already reached, maintain state
   if (stateful_ && position_reached_) {

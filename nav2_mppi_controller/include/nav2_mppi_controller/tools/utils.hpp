@@ -223,6 +223,28 @@ inline bool withinPositionGoalTolerance(
   return false;
 }
 
+inline bool isPathLongerThanLength(const mppi::models::Path & path, const double length)
+{
+  const auto num_points = path.x.shape(0);
+  if (num_points < 2) {
+    return false;
+  }
+
+  double total_length = 0.0;
+
+  for (std::size_t i = 1; i < num_points; ++i) {
+    const double dx = path.x(i) - path.x(i - 1);
+    const double dy = path.y(i) - path.y(i - 1);
+    total_length += std::sqrt(dx * dx + dy * dy);
+
+    if (total_length > length) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 /**
  * @brief Check if the robot pose is within tolerance to the goal
  * @param pose_tolerance Pose tolerance to use
@@ -233,8 +255,13 @@ inline bool withinPositionGoalTolerance(
 inline bool withinPositionGoalTolerance(
   float pose_tolerance,
   const geometry_msgs::msg::Pose & robot,
-  const geometry_msgs::msg::Pose & goal)
+  const geometry_msgs::msg::Pose & goal,
+  const mppi::models::Path & path)
 {
+  if (isPathLongerThanLength(path, 1.0)) {
+    return false;
+  }
+
   const double & dist_sq =
     std::pow(goal.position.x - robot.position.x, 2) +
     std::pow(goal.position.y - robot.position.y, 2);

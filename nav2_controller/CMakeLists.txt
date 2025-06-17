@@ -64,6 +64,19 @@ ament_target_dependencies(stopped_goal_checker ${dependencies})
 add_library(position_goal_checker SHARED plugins/position_goal_checker.cpp)
 ament_target_dependencies(position_goal_checker ${dependencies})
 
+add_library(path_complete_goal_checker SHARED plugins/path_complete_goal_checker.cpp)
+target_include_directories(path_complete_goal_checker
+  PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
+)
+target_link_libraries(path_complete_goal_checker
+  simple_goal_checker
+)
+ament_target_dependencies(path_complete_goal_checker
+  ${dependencies}
+)
+
 ament_target_dependencies(${library_name}
   ${dependencies}
 )
@@ -86,7 +99,7 @@ target_link_libraries(${executable_name} ${library_name})
 
 rclcpp_components_register_nodes(${library_name} "nav2_controller::ControllerServer")
 
-install(TARGETS simple_progress_checker pose_progress_checker simple_goal_checker stopped_goal_checker position_goal_checker ${library_name}
+install(TARGETS simple_progress_checker pose_progress_checker simple_goal_checker stopped_goal_checker position_goal_checker path_complete_goal_checker ${library_name}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
@@ -113,6 +126,7 @@ ament_export_libraries(simple_progress_checker
   simple_goal_checker
   stopped_goal_checker
   position_goal_checker
+  path_complete_goal_checker
   ${library_name})
 ament_export_dependencies(${dependencies})
 pluginlib_export_plugin_description_file(nav2_core plugins.xml)

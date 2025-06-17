@@ -59,6 +59,7 @@ SimpleGoalChecker::SimpleGoalChecker()
   check_xy_(true),
   xy_goal_tolerance_sq_(0.0625)
 {
+    std::cout << "SimpleGoalChecker created" << std::endl;
 }
 
 void SimpleGoalChecker::initialize(
@@ -97,7 +98,7 @@ void SimpleGoalChecker::reset()
 
 bool SimpleGoalChecker::isGoalReached(
   const geometry_msgs::msg::Pose & query_pose, const geometry_msgs::msg::Pose & goal_pose,
-  const geometry_msgs::msg::Twist &)
+  const geometry_msgs::msg::Twist &, const nav_msgs::msg::Path & /*path*/)
 {
   if (check_xy_) {
     double dx = query_pose.position.x - goal_pose.position.x,
